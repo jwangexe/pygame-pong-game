@@ -2,6 +2,7 @@ import pygame, sys
 from pygame.locals import QUIT
 from color import COLOR
 from paddle import Paddle
+from ball import Ball
 
 SIZE = (700, 500)
 
@@ -13,11 +14,15 @@ pygame.display.set_caption("Pong")
 
 all_sprites_list = pygame.sprite.Group()
 
+# initialize paddles
 paddle1 = Paddle(COLOR.BLACK, 20, 200, 10, 100)
 all_sprites_list.add(paddle1)
 paddle2 = Paddle(COLOR.BLACK, 670, 200, 10, 100)
 all_sprites_list.add(paddle2)
 
+#initialize ball
+ball = Ball(COLOR.BLACK, 345, 195, 10, 10)
+all_sprites_list.add(ball)
 
 while True:
     for event in pygame.event.get():
