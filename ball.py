@@ -3,6 +3,7 @@ from random import randint
 from color import COLOR
 
 class Ball(pygame.sprite.Sprite):
+    MAXSPEED = 4
     
     def __init__(self, color, x, y, width, height):
         # ball init
@@ -14,7 +15,8 @@ class Ball(pygame.sprite.Sprite):
         # draw ball (as a rectangle)
         pygame.draw.rect(self.image, color, [0, 0, width, height])
 
-        self.velocity = [randint(-6, 6), randint(-6, 6)]
+        self.velocity = [self.get_speed(), self.get_speed()]
+        self.increment = 0
 
         # get collision rect
         self.rect = self.image.get_rect()
@@ -22,6 +24,12 @@ class Ball(pygame.sprite.Sprite):
         # set coordinates
         self.rect.x = x
         self.rect.y = y
+
+    def get_speed(self):
+        s = randint(-self.MAXSPEED, self.MAXSPEED)
+        while s == 0:
+            s = randint(-self.MAXSPEED, self.MAXSPEED)
+        return s
     
     def speed_up(self, var, a):
         """
@@ -57,26 +65,16 @@ class Ball(pygame.sprite.Sprite):
 
     def bounce(self):
         self.velocity[0] = -self.velocity[0]
-        self.velocity[1] = randint(6, 6)
+        self.velocity[1] = self.get_speed()
+        self.speed_up("y", self.increment)
 
     def update(self):
-        self.rect.x += self.velocity[0]
-        self.rect.y += self.velocity[1]
-
-        if self.rect.x >= 690:
-            self.reset()
-            self.velocity[0] = -self.velocity[0]
-        if self.rect.x <= 0:
-            self.reset()
-            self.velocity[0] = -self.velocity[0]
-        if self.rect.y > 490:
-            self.velocity[1] = -self.velocity[1]
-            self.speed_up("xy", 0.25)
-        if self.rect.y < 0:
-            self.velocity[1] = -self.velocity[1]
-            self.speed_up("xy", 0.25)
+        self.rect.x += self.velocity[0]+self.increment
+        self.rect.y += self.velocity[1]+self.increment
 
     def reset(self):
         self.rect.x = 345
         self.rect.y = 195
-        self.velocity = [randint(-6, 6), randint(-6, 6)]
+        self.velocity[0] = self.get_speed()
+        self.velocity[1] = self.get_speed()
+        self.increment = 0
