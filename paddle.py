@@ -19,3 +19,15 @@ class Paddle(pygame.sprite.Sprite):
         # set paddle location
         self.rect.x = x
         self.rect.y = y
+    
+    def update(self):
+        if self.rect.y < 0:
+            self.rect.y = 0
+        if self.rect.y > 400:
+            self.rect.y = 400
+
+    def move_up(self, pixels):
+        self.rect.y -= pixels
+
+    def move_down(self, pixels):
+        self.rect.y += pixels

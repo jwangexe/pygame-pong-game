@@ -30,6 +30,18 @@ while True:
             pygame.quit()
             sys.exit()
 
+    # keypress detection
+    keys = pygame.key.get_pressed()
+
+    if keys[pygame.K_w]:
+        paddle1.move_up(5)
+    if keys[pygame.K_s]:
+        paddle1.move_down(5)
+    if keys[pygame.K_UP]:
+        paddle2.move_up(5)
+    if keys[pygame.K_DOWN]:
+        paddle2.move_down(5)
+
     # update sprites
     all_sprites_list.update()
 
