@@ -55,6 +55,9 @@ class Ball(pygame.sprite.Sprite):
         
         return
 
+    def bounce(self):
+        self.velocity[0] = -self.velocity[0]
+        self.velocity[1] = randint(6, 6)
 
     def update(self):
         self.rect.x += self.velocity[0]
@@ -68,10 +71,10 @@ class Ball(pygame.sprite.Sprite):
             self.velocity[0] = -self.velocity[0]
         if self.rect.y > 490:
             self.velocity[1] = -self.velocity[1]
-            self.speed_up("xy", 1)
+            self.speed_up("xy", 0.25)
         if self.rect.y < 0:
             self.velocity[1] = -self.velocity[1]
-            self.speed_up("xy", 1)
+            self.speed_up("xy", 0.25)
 
     def reset(self):
         self.rect.x = 345

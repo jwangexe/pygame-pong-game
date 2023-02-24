@@ -45,6 +45,11 @@ while True:
     # update sprites
     all_sprites_list.update()
 
+    # detect collisions
+    if pygame.sprite.collide_mask(ball, paddle1) \
+        or pygame.sprite.collide_mask(ball, paddle2):
+        ball.bounce()
+
     # set background color
     screen.fill(COLOR.WHITE)
 
