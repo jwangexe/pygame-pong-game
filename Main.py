@@ -15,6 +15,8 @@ all_sprites_list = pygame.sprite.Group()
 
 paddle1 = Paddle(COLOR.BLACK, 20, 200, 10, 100)
 all_sprites_list.add(paddle1)
+paddle2 = Paddle(COLOR.BLACK, 670, 200, 10, 100)
+all_sprites_list.add(paddle2)
 
 
 while True:
