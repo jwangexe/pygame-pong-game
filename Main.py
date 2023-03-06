@@ -38,12 +38,7 @@ score2 = Score(COLOR.BLUE, 600, 50)
 all_sprites_list.add(score2)
 scores.append(score2)
 
-while True:
-    for event in pygame.event.get():
-        if event.type == QUIT:
-            pygame.quit()
-            sys.exit()
-
+def get_keypress():
     # keypress detection
     keys = pygame.key.get_pressed()
 
@@ -56,9 +51,7 @@ while True:
     if keys[pygame.K_DOWN]:
         paddle2.move_down(5)
 
-    # update sprites
-    all_sprites_list.update()
-
+def check_ball_bounds():
     # check ball bounce
     if ball.rect.x >= 690:
         # p1 scores
@@ -70,20 +63,41 @@ while True:
         ball.reset()
         ball.velocity[0] = -ball.velocity[0]
         score2.increment()
-    if ball.rect.y > 490:      
+    if ball.rect.y > 490 and ball.velocity[1] > 0:      
         ball.velocity[1] = -ball.velocity[1]
         ball.increment += 0.25
-    if ball.rect.y < 0:
+    if ball.rect.y < 0 and ball.velocity[1] < 0:
         ball.velocity[1] = -ball.velocity[1]
         ball.increment += 0.25
 
-    # win detection
-    
-
+def detect_collisions():
     # detect collisions
     if pygame.sprite.collide_mask(ball, paddle1) \
         or pygame.sprite.collide_mask(ball, paddle2):
         ball.bounce()
+
+while True:
+    for event in pygame.event.get():
+        if event.type == QUIT:
+            pygame.quit()
+            sys.exit()
+
+    get_keypress()
+
+    # update sprites
+    all_sprites_list.update()
+
+    check_ball_bounds()
+
+    detect_collisions()
+
+    # win detection
+    if score1.score >= WIN:
+        # p1 wins
+        pass
+    elif score2.score >= WIN:
+        # p2 wins
+        pass
 
     # set background color
     screen.fill(COLOR.WHITE)
