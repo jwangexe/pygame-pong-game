@@ -4,6 +4,7 @@ from color import COLOR
 from paddle import Paddle
 from ball import Ball
 from score import Score
+from end_text import GameOver
 
 SIZE = (700, 500) # size of game window
 TICK = 60 # number of ms per tick
@@ -27,6 +28,10 @@ all_sprites_list.add(paddle2)
 # initialize ball
 ball = Ball(COLOR.BLACK, 345, 195, 10, 10)
 all_sprites_list.add(ball)
+
+# initialize game over text
+end_p1 = GameOver("P1 WINS", COLOR.RED, 325, 225)
+end_p2 = GameOver("P2 WINS", COLOR.BLUE, 325, 225)
 
 # initialize scores
 scores = []
@@ -76,34 +81,42 @@ def detect_collisions():
         or pygame.sprite.collide_mask(ball, paddle2):
         ball.bounce()
 
+def win_detection(p1, p2):
+    """
+    p1: the GameOver class for player 1
+    p2: the GameOver class for player 2
+    """
+    # win detection
+    if score1.score >= WIN:
+        # p1 wins
+        screen.blit(p1.image, (p1.x, p1.y))
+    elif score2.score >= WIN:
+        # p2 wins
+        screen.blit(p2.image, (p2.x, p2.y))
+
+def game_tick():
+    # get keypresses
+    get_keypress()
+    # update sprites
+    all_sprites_list.update()
+    # check ball boundaries
+    check_ball_bounds()
+    # detects collisions
+    detect_collisions()
+    # set background color
+    screen.fill(COLOR.WHITE)
+    # detect win
+    win_detection(end_p1, end_p2)
+    # draw sprites
+    all_sprites_list.draw(screen)
+
 while True:
     for event in pygame.event.get():
         if event.type == QUIT:
             pygame.quit()
             sys.exit()
 
-    get_keypress()
-
-    # update sprites
-    all_sprites_list.update()
-
-    check_ball_bounds()
-
-    detect_collisions()
-
-    # win detection
-    if score1.score >= WIN:
-        # p1 wins
-        pass
-    elif score2.score >= WIN:
-        # p2 wins
-        pass
-
-    # set background color
-    screen.fill(COLOR.WHITE)
-
-    # draw sprites
-    all_sprites_list.draw(screen)
+    game_tick()
 
     pygame.display.flip()
     clock.tick(TICK)

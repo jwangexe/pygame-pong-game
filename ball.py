@@ -27,7 +27,7 @@ class Ball(pygame.sprite.Sprite):
 
     def get_speed(self):
         s = randint(-self.MAXSPEED, self.MAXSPEED)
-        while s == 0:
+        while s < 1:
             s = randint(-self.MAXSPEED, self.MAXSPEED)
         return s
     
