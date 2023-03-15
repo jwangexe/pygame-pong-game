@@ -3,7 +3,7 @@ from random import randint
 from color import COLOR
 
 class Ball(pygame.sprite.Sprite):
-    MAXSPEED = 4
+    MAXSPEED = 6
     
     def __init__(self, color, x, y, width, height):
         # ball init
@@ -16,7 +16,7 @@ class Ball(pygame.sprite.Sprite):
         pygame.draw.rect(self.image, color, [0, 0, width, height])
 
         self.velocity = [self.get_speed(), self.get_speed()]
-        self.increment = 0
+        self.increment = 2
 
         # get collision rect
         self.rect = self.image.get_rect()
